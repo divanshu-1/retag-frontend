@@ -20,6 +20,7 @@ import { apiRequest } from '@/lib/api';
 import type { Product } from '@/lib/products';
 import ProductCard from '@/components/product-card';
 import { getColorHex } from '@/lib/product-colors';
+import { getBackendUrl } from '@/lib/backend-url';
 
 /**
  * Featured Products Component
@@ -52,7 +53,7 @@ export default function FeaturedProducts() {
               originalPrice: '',
               condition: p.ai_analysis?.image_analysis?.quality || '',
               images: (p.images || []).map((img: string) =>
-                img.startsWith('http') ? img : `http://localhost:8080/${img.replace(/^uploads\//, 'uploads/')}`
+                img.startsWith('http') ? img : `${getBackendUrl()}/${img.replace(/^uploads\//, 'uploads/')}`
               ),
               imageHints: lp.tags || [],
               sizes: p.size ? [p.size] : [],

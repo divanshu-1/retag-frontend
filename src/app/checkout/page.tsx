@@ -10,6 +10,7 @@ import { Switch } from '@/components/ui/switch';
 import { useCart } from '@/hooks/use-cart';
 import { useToast } from '@/hooks/use-toast';
 import Script from 'next/script';
+import { getBackendUrl } from '@/lib/backend-url';
 
 type Address = {
   _id?: string;
@@ -52,7 +53,7 @@ export default function CheckoutPage() {
     try {
       console.log('Manual verification attempt with data:', lastPaymentData);
 
-      const verifyRes = await fetch('http://localhost:8080/payments/verify', {
+      const verifyRes = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8080'}/payments/verify`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -204,7 +205,7 @@ export default function CheckoutPage() {
     setIsPaying(true);
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:8080/payments/create-order', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8080'}/payments/create-order`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({
@@ -239,7 +240,7 @@ export default function CheckoutPage() {
 
               // First check if server is reachable
               console.log('Checking server health...');
-              const healthCheck = await fetch('http://localhost:8080/health', {
+              const healthCheck = await fetch(`${getBackendUrl()}/health`, {
                 method: 'GET',
                 headers: {
                   'Cache-Control': 'no-cache',
@@ -256,7 +257,7 @@ export default function CheckoutPage() {
 
               console.log('Server is reachable, proceeding with payment verification...');
 
-              const verifyRes = await fetch('http://localhost:8080/payments/verify', {
+              const verifyRes = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8080'}/payments/verify`, {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',

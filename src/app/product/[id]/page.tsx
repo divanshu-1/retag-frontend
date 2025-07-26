@@ -39,7 +39,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
               price: `₹${lp.price || ''}`,
               originalPrice: lp.mrp ? `₹${lp.mrp}` : '',
               condition: backendProduct.ai_analysis?.image_analysis?.quality || '',
-              images: (backendProduct.images || []).map((img: string) => img.startsWith('http') ? img : `http://localhost:8080/${img.replace(/^uploads\//, 'uploads/')}`),
+              images: (backendProduct.images || []).map((img: string) => img.startsWith('http') ? img : `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8080'}/${img.replace(/^uploads\//, 'uploads/')}`),
               imageHints: lp.tags || [],
               sizes: backendProduct.size ? [backendProduct.size] : [],
               colors: (backendProduct.ai_analysis?.image_analysis?.colors_detected || []).length > 0

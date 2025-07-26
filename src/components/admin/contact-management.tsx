@@ -35,7 +35,7 @@ export default function ContactManagement() {
   const fetchSubmissions = async () => {
     try {
       const token = localStorage.getItem('auth_token');
-      const response = await fetch('http://localhost:8080/contact/submissions', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8080'}/contact/submissions`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -59,7 +59,7 @@ export default function ContactManagement() {
   const fetchStats = async () => {
     try {
       const token = localStorage.getItem('auth_token');
-      const response = await fetch('http://localhost:8080/contact/stats', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8080'}/contact/stats`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -82,7 +82,7 @@ export default function ContactManagement() {
   const updateStatus = async (id: string, status: 'new' | 'read' | 'replied') => {
     try {
       const token = localStorage.getItem('auth_token');
-      const response = await fetch(`http://localhost:8080/contact/submissions/${id}/status`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8080'}/contact/submissions/${id}/status`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,

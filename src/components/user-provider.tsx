@@ -72,10 +72,12 @@ const setStoredUser = (user: User | null): void => {
   }
 };
 
+import { getBackendUrl } from '@/lib/backend-url';
+
 // JWT token validation and user extraction
 const validateToken = async (token: string): Promise<User | null> => {
   try {
-    const response = await fetch('http://localhost:8080/auth/protected', {
+    const response = await fetch(`${getBackendUrl()}/auth/protected`, {
       headers: {
         'Authorization': `Bearer ${token}`,
       },
@@ -205,7 +207,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     const token = getStoredToken();
     if (!token) return;
     try {
-      const response = await fetch('http://localhost:8080/auth/profile', {
+      const response = await fetch(`${getBackendUrl()}/auth/profile`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -230,7 +232,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     const token = getStoredToken();
     if (!token) return [];
     try {
-      const response = await fetch('http://localhost:8080/api/user/addresses', {
+      const response = await fetch(`${getBackendUrl()}/api/user/addresses`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -253,7 +255,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     const token = getStoredToken();
     if (!token) return [];
     try {
-      const response = await fetch('http://localhost:8080/api/user/addresses', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8080'}/api/user/addresses`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

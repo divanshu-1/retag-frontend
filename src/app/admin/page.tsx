@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ContactManagement from '@/components/admin/contact-management';
+import { getBackendUrl } from '@/lib/backend-url';
 
 interface SellerRequest {
   _id: string;
@@ -102,7 +103,7 @@ export default function AdminDashboard() {
     setEditLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:8080/sell/admin/products/${editingProduct._id}/edit-price`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8080'}/sell/admin/products/${editingProduct._id}/edit-price`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -222,7 +223,7 @@ export default function AdminDashboard() {
     if (!isAdmin) return;
     setLoading(true);
     setError('');
-    fetch('http://localhost:8080/sell/admin/pending', {
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8080'}/sell/admin/pending`, {
       headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
     })
       .then(res => res.json())
@@ -241,7 +242,7 @@ export default function AdminDashboard() {
     setListedLoading(true);
     setListedError('');
     try {
-      const res = await fetch('http://localhost:8080/sell/admin/listed', {
+      const res = await fetch(`${getBackendUrl()}/sell/admin/listed`, {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
       });
       const data = await res.json();
@@ -321,7 +322,7 @@ export default function AdminDashboard() {
         }
       }
 
-      const res = await fetch(`http://localhost:8080/sell/admin/review/${id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8080'}/sell/admin/review/${id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -345,7 +346,7 @@ export default function AdminDashboard() {
     setActionLoading(id + 'unlist');
     setListedError('');
     try {
-      const res = await fetch(`http://localhost:8080/sell/admin/review/${id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8080'}/sell/admin/review/${id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -432,7 +433,7 @@ export default function AdminDashboard() {
               <div className="flex flex-col gap-6">
                 {filteredRequests.map(req => {
                   const firstImage = req.images && req.images.length > 0 ? req.images[0] : null;
-                  const imageUrl = firstImage ? (firstImage.startsWith('http') ? firstImage : `http://localhost:8080/${firstImage.replace(/^uploads\//, 'uploads/')}`) : null;
+                  const imageUrl = firstImage ? (firstImage.startsWith('http') ? firstImage : `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8080'}/${firstImage.replace(/^uploads\//, 'uploads/')}`) : null;
                   const aiPrice = req.ai_analysis?.price_suggestion?.suggested_price || '';
                   return (
                     <div key={req._id} className="p-4 sm:p-6 rounded-lg bg-muted flex flex-col gap-4">

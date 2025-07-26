@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
+import { getBackendUrl } from '@/lib/backend-url';
 
 export default function ContactUs() {
   const { toast } = useToast();
@@ -43,7 +44,7 @@ export default function ContactUs() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('http://localhost:8080/contact/submit', {
+      const response = await fetch(`${getBackendUrl()}/contact/submit`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

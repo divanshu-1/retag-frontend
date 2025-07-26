@@ -19,6 +19,7 @@ import { ArrowRight, ArrowLeft, Eye, EyeOff, Mail } from 'lucide-react';
 import { useUser } from '@/hooks/use-user';
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest } from '@/lib/api';
+import { getBackendUrl } from '@/lib/backend-url';
 
 const GoogleIcon = () => (
     <svg className="h-5 w-5 mr-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -39,7 +40,8 @@ const EmailView = ({ onContinue }: { onContinue: (email: string) => void }) => {
 
     const handleGoogleLogin = () => {
         // Redirect to Google OAuth
-        window.location.href = "http://localhost:8080/auth/google";
+        const backendUrl = getBackendUrl();
+        window.location.href = `${backendUrl}/auth/google`;
     };
 
     return (

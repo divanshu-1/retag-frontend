@@ -1,4 +1,6 @@
-const API_BASE_URL = 'http://localhost:8080';
+import { getApiBaseUrl } from './backend-url';
+
+const API_BASE_URL = getApiBaseUrl();
 
 /**
  * Make an authenticated API request (returns raw Response)
